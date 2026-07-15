@@ -33,7 +33,9 @@ jobs:
 
       - name: Check crate version matches tag
         run: |
-          crate_version=$(cargo pkgid | cut -d'#' -f2)
+          # pkgid yields "...#name@x.y.z" (or "...#x.y.z" when the package
+          # and directory names match); the trailing cut handles both.
+          crate_version=$(cargo pkgid | cut -d'#' -f2 | cut -d'@' -f2)
           test "v${crate_version}" = "${GITHUB_REF_NAME}" || {
             echo "crate version ${crate_version} does not match tag ${GITHUB_REF_NAME}"
             exit 1
