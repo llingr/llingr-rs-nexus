@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 The llingr-rs-nexus Authors
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "llingr-nexus"
+version = "0.10.0"
+edition = "2021"
+rust-version = "1.78"
+description = "Contracts for the llingr Rust message-processing ecosystem: message, traits, metrics, handler traits"
+license = "Apache-2.0"
+repository = "https://github.com/llingr/llingr-rs-nexus"
+homepage = "https://llingr.io"
+readme = "README.md"
+keywords = ["kafka", "redpanda", "streaming", "messaging", "contracts"]
+categories = ["network-programming", "api-bindings"]
+exclude = [
+    "Makefile",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    ".gitignore",
+    ".github/",
+    ".fossa.yml",
+    "REUSE.toml",
+    "LICENSES/",
+]
+
+[dependencies]
+# None. Zero-dependency contract crate, mirroring the Go llingr-nexus module.

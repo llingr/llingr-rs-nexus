@@ -1,0 +1,22 @@
+version = 1
+
+# Bulk annotation for files that cannot or should not carry in-file SPDX
+# headers (structured configs, prose, attribution files, the lockfile).
+# precedence = "closest" keeps any in-file header authoritative.
+[[annotations]]
+path = [
+    ".fossa.yml",
+    ".github/**",
+    ".gitignore",
+    "AUTHORS",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "COPYRIGHT",
+    "Cargo.lock",
+    "NOTICE",
+    "README.md",
+    "SECURITY.md",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "Copyright (c) 2026 The llingr-rs-nexus Authors"
+SPDX-License-Identifier = "Apache-2.0"
