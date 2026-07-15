@@ -39,10 +39,10 @@ jobs:
           --verify-tag
           --title "${GITHUB_REF_NAME}"
           --generate-notes
-          "llingr-rs-nexus_${GITHUB_REF_NAME}.tar.gz"
-          "llingr-rs-nexus_${GITHUB_REF_NAME}.tar.gz.sigstore"
-          "llingr-rs-nexus_${GITHUB_REF_NAME}.cdx.json"
-          "llingr-rs-nexus_${GITHUB_REF_NAME}.spdx.json"
+          "llingr-rs-nexus-${GITHUB_REF_NAME}.tar.gz"
+          "llingr-rs-nexus-${GITHUB_REF_NAME}.tar.gz.sigstore"
+          "llingr-rs-nexus-${GITHUB_REF_NAME}.cdx.json"
+          "llingr-rs-nexus-${GITHUB_REF_NAME}.spdx.json"
           llingr-nexus-*.crate
 
   publish-crate:
