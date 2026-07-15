@@ -41,19 +41,22 @@ jobs:
             exit 1
           }
 
-      - name: Source archive
-        run: >
-          git archive --format=tar.gz
-          --prefix="llingr-rs-nexus-${GITHUB_REF_NAME}/"
-          -o "llingr-rs-nexus_${GITHUB_REF_NAME}.tar.gz"
-          "${GITHUB_REF_NAME}"
-
       # The .crate file is byte-identical to what `cargo publish` uploads,
       # so the attestation below covers the artifact crates.io users get.
+      # Packaged before anything writes to the working directory: cargo
+      # refuses to package a tree it considers dirty, and the steps below
+      # drop their outputs at the repository root.
       - name: Package crate
         run: |
           cargo package --locked
           cp target/package/llingr-nexus-*.crate .
+
+      - name: Source archive
+        run: >
+          git archive --format=tar.gz
+          --prefix="llingr-rs-nexus-${GITHUB_REF_NAME}/"
+          -o "llingr-rs-nexus-${GITHUB_REF_NAME}.tar.gz"
+          "${GITHUB_REF_NAME}"
 
       - name: Install syft
         uses: anchore/sbom-action/download-syft@e22c389904149dbc22b58101806040fa8d37a610 # v0.24.0
@@ -67,7 +70,7 @@ jobs:
           --source-name llingr-rs-nexus
           --source-version "${GITHUB_REF_NAME}"
           --source-supplier "Llingr Software Ltd"
-          -o "cyclonedx-json=llingr-rs-nexus_${GITHUB_REF_NAME}.cdx.json"
+          -o "cyclonedx-json=llingr-rs-nexus-${GITHUB_REF_NAME}.cdx.json"
 
       - name: Generate SPDX SBOM (syft)
         run: >
@@ -76,34 +79,34 @@ jobs:
           --source-name llingr-rs-nexus
           --source-version "${GITHUB_REF_NAME}"
           --source-supplier "Llingr Software Ltd"
-          -o "spdx-json=llingr-rs-nexus_${GITHUB_REF_NAME}.spdx.json"
+          -o "spdx-json=llingr-rs-nexus-${GITHUB_REF_NAME}.spdx.json"
 
       - name: Attest build provenance
         id: attest
         uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
         with:
           subject-path: |
-            llingr-rs-nexus_${{ github.ref_name }}.tar.gz
+            llingr-rs-nexus-${{ github.ref_name }}.tar.gz
             llingr-nexus-*.crate
 
       # Ship the provenance bundle as a release asset too. The attestation
       # already lives in GitHub's store (gh attestation verify); attaching it
       # makes the provenance discoverable and verifiable next to the tarball.
       - name: Attach provenance bundle
-        run: cp "${{ steps.attest.outputs.bundle-path }}" "llingr-rs-nexus_${GITHUB_REF_NAME}.tar.gz.sigstore"
+        run: cp "${{ steps.attest.outputs.bundle-path }}" "llingr-rs-nexus-${GITHUB_REF_NAME}.tar.gz.sigstore"
 
       - name: Attest SBOM
         uses: actions/attest-sbom@c604332985a26aa8cf1bdc465b92731239ec6b9e # v4.1.0
         with:
-          subject-path: llingr-rs-nexus_${{ github.ref_name }}.tar.gz
-          sbom-path: llingr-rs-nexus_${{ github.ref_name }}.cdx.json
+          subject-path: llingr-rs-nexus-${{ github.ref_name }}.tar.gz
+          sbom-path: llingr-rs-nexus-${{ github.ref_name }}.cdx.json
 
       - name: Upload release assets
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-assets
           path: |
-            llingr-rs-nexus_${{ github.ref_name }}.*
+            llingr-rs-nexus-${{ github.ref_name }}.*
             llingr-nexus-*.crate
           if-no-files-found: error
           retention-days: 1
