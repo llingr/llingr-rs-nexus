@@ -10,12 +10,14 @@ pub trait ShutdownHandler: Send + Sync + 'static {
     fn handle(&self, reason: &str);
 }
 
-/// Stops a consumer immediately on an irrecoverable, typically infrastructure,
-/// failure: the Rust form of the Go nexus `EmergencyShutdowner` contract.
+/// Stops a consumer without draining on an irrecoverable, typically
+/// infrastructure, failure: the Rust form of the Go nexus
+/// `EmergencyShutdowner` contract.
 ///
-/// In-flight work is abandoned rather than drained, so nothing further is
-/// committed and those messages are redelivered after a restart. The
-/// registered [`ShutdownHandler`] receives `reason` exactly once.
+/// Nothing waits for in-flight work. Work that completes as the stop takes
+/// effect may still be committed; work that has not completed is redelivered
+/// after a restart. The registered [`ShutdownHandler`] is notified exactly
+/// once, with a description that includes `reason`.
 ///
 /// Implementations accept a call from any thread and at any point in the
 /// lifecycle: before consumption starts, during assignment, while running and
