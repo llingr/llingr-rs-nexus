@@ -3,7 +3,7 @@
 
 [package]
 name = "llingr-nexus"
-version = "0.10.0"
+version = "0.10.1"
 edition = "2021"
 rust-version = "1.78"
 description = "Contracts for the llingr Rust message-processing ecosystem: message, traits, metrics, handler traits"
