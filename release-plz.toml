@@ -7,6 +7,9 @@ publish = false
 git_release_enable = false
 git_tag_enable = true
 git_tag_name = "v{{ version }}"
+# feat increments the minor on 0.x too, the rule the Go libraries' auto-tag
+# follows; Cargo's 0.x default would release it as a patch
+features_always_increment_minor = true
 # This is the contract crate every llingr Rust crate depends on: a breaking
 # change released as a minor or patch would break them all.
 semver_check = true
