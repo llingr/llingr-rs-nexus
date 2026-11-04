@@ -17,6 +17,7 @@ the engine binding all link through it.
 - **Engine log lines**: `LogLevel`
 - **Handler traits**: `ProcessHandler`, `DeadLetterHandler`, `MetricsHandler`,
   `BandwidthMetricsHandler`, `ShutdownHandler`, `LogHandler`
+- **Consumer control**: `EmergencyStop`, implemented by the engine
 - **Adapter vocabulary**: `Adapter`, `AutoOffsetReset`, `AdapterOptions`
 
 Handler semantics (ordering guarantees, the error and dead-letter contract, threading
