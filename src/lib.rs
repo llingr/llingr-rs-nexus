@@ -23,7 +23,7 @@ mod traits;
 
 pub use adapter::{Adapter, AdapterOptions, AutoOffsetReset};
 pub use bandwidth::{BandwidthMetrics, BandwidthMetricsHandler, BrokerInfo, PartitionBandwidth};
-pub use consumer::ShutdownHandler;
+pub use consumer::{EmergencyStop, ShutdownHandler};
 pub use logger::{LogHandler, LogLevel};
 pub use message::{DeadLetterHandler, Header, Headers, Message, ProcessHandler, Timestamp};
 pub use metrics::{Metrics, MetricsHandler};
