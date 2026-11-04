@@ -9,6 +9,7 @@ path = [
     ".github/**",
     ".gitignore",
     "AUTHORS",
+    "CHANGELOG.md",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
     "COPYRIGHT",
@@ -16,6 +17,7 @@ path = [
     "NOTICE",
     "README.md",
     "SECURITY.md",
+    "release-plz.toml",
 ]
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (c) 2026 The llingr-rs-nexus Authors"

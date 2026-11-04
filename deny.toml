@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 The llingr-rs-nexus Authors
+# SPDX-License-Identifier: Apache-2.0
+#
+# llingr-nexus is the permissively licensed (Apache-2.0) contract crate that
+# every llingr Rust crate shares. This config enforces that boundary from the
+# Apache side: the AGPL engine crates must never enter this crate's dependency
+# graph. cargo-deny sees only the Rust graph; the Go-side boundary stays
+# enforced by Go module structure. This crate is zero-dependency, so the checks
+# below pass trivially today and act as guardrails against a future dependency
+# pulling copyleft or an AGPL-linked crate in.
+
+[advisories]
+version = 2
+yanked = "deny"
+ignore = []
+
+[licenses]
+version = 2
+# Permissive allow-list only. Under licenses schema v2 anything not on this list
+# is denied, so AGPL-3.0-* and LicenseRef-Llingr-Commercial are rejected by
+# their absence: a copyleft dependency, or a bundled llingr AGPL crate, fails
+# the check here rather than slipping in unnoticed. The named [bans] below is the
+# explicit, by-crate half of the same boundary.
+allow = [
+    "Apache-2.0",
+    "MIT",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",
+    "Unicode-DFS-2016",
+]
+confidence-threshold = 0.9
+# The allow-list guards future dependencies; with none today, every entry but
+# Apache-2.0 would otherwise warn as unused
+unused-allowed-license = "allow"
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# The AGPL-linked llingr crates must never appear in an Apache crate's graph.
+# Naming them explicitly makes an accidental dependency a hard failure with a
+# clear reason, not a licence-scan surprise.
+deny = [
+    { name = "llingr-kafka" },
+    { name = "llingr" },
+    { name = "llingr-demux-sys" },
+]
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"

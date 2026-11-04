@@ -11,6 +11,7 @@ test:
 lint:
 	cargo fmt --check
 	cargo clippy --all-targets -- -D warnings
+	cargo deny check licenses bans sources
 
 # Rustdoc warnings fail here rather than on docs.rs after publish. Missing
 # docs are already a compile error (#![deny(missing_docs)] in lib.rs).
@@ -30,7 +31,7 @@ clean:
 help:
 	@echo "make                 - test + lint + doc (the pre-push default)"
 	@echo "make test            - unit tests + doctests"
-	@echo "make lint            - rustfmt check + clippy (warnings denied)"
+	@echo "make lint            - rustfmt check + clippy (warnings denied) + cargo deny"
 	@echo "make doc             - render API docs (rustdoc warnings denied)"
 	@echo "make package         - list the files cargo would publish"
 	@echo "make publish-dry-run - full publish verification, no upload"
