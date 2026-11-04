@@ -19,6 +19,11 @@ jobs:
         with:
           toolchain: stable
           components: rustfmt, clippy
+      - uses: taiki-e/install-action@43aecc8d72668fbcfe75c31400bc4f890f1c5853 # v2.83.2
+        with:
+          tool: cargo-deny@0.20.2
       # Same commands as `make lint`, so CI and the pre-push default agree.
       - run: cargo fmt --check
       - run: cargo clippy --all-targets --locked -- -D warnings
+      # deny.toml's licence boundary; advisories are cargo audit's job in Vulncheck
+      - run: cargo deny check licenses bans sources

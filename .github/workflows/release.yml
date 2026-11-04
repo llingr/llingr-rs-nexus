@@ -46,19 +46,10 @@ jobs:
           llingr-nexus-*.crate
 
   publish-crate:
-    # crates.io publish via Trusted Publishing (OIDC): no long-lived API
-    # token; crates.io mints a short-lived token for this repo + workflow +
-    # environment (one-time publisher setup on crates.io). Gated on the
-    # GitHub release: the irreversible (yank-only) crates.io upload happens
-    # last, only for a tag whose release built, attested, and published
-    # cleanly.
-    #
-    # DISABLED (skipped, never failed) until the one-time bootstrap is done:
-    # crates.io requires a crate's first release to be published manually
-    # before a trusted publisher can be configured. Once the crate exists
-    # and the publisher is set up, delete the `if: false` line below.
+    # Trusted Publishing (OIDC): crates.io mints a short-lived token for this
+    # repo, workflow and environment, and the crate accepts no other way to
+    # publish. Runs last because the upload is yank-only.
     name: publish to crates.io
-    if: false
     needs: publish
     runs-on: ubuntu-latest
     timeout-minutes: 20

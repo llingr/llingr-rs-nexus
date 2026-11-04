@@ -21,6 +21,9 @@ exclude = [
     ".gitignore",
     ".github/",
     ".fossa.yml",
+    "deny.toml",
+    "release-plz.toml",
+    "CHANGELOG.md",
     "REUSE.toml",
     "LICENSES/",
 ]
